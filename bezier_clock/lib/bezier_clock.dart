@@ -7,19 +7,18 @@ import 'package:intl/intl.dart';
 enum _Element {
   background,
   text,
-  shadow,
 }
 
-final _lightTheme = {
-  _Element.background: Color(0xFF81B3FE),
-  _Element.text: Colors.white,
-  _Element.shadow: Colors.black,
-};
-
-final _darkTheme = {
-  _Element.background: Colors.black,
-  _Element.text: Colors.white,
-  _Element.shadow: Color(0xFF174EA6),
+final _themes = {
+  Brightness.light: {
+    _Element.background: Colors.white,
+    _Element.text: Colors.black,
+  },
+  
+  Brightness.dark: {
+    _Element.background: Colors.black,
+    _Element.text: Colors.white,
+  },
 };
 
 class BezierClock extends StatefulWidget {
@@ -76,28 +75,19 @@ class _BezierClockState extends State<BezierClock> {
 
   @override
   Widget build(BuildContext context) {
-    final colors = Theme.of(context).brightness == Brightness.light
-        ? _lightTheme
-        : _darkTheme;
+    final theme = _themes[Theme.of(context).brightness];
     final hour =
         DateFormat(widget.model.is24HourFormat ? 'HH' : 'hh').format(_dateTime);
     final minute = DateFormat('mm').format(_dateTime);
     final fontSize = MediaQuery.of(context).size.width / 3.5;
     final offset = -fontSize / 7;
     final defaultStyle = TextStyle(
-      color: colors[_Element.text],
+      color: theme[_Element.text],
       fontSize: fontSize,
-      shadows: [
-        Shadow(
-          blurRadius: 0,
-          color: colors[_Element.shadow],
-          offset: Offset(10, 0),
-        ),
-      ],
     );
 
     return Container(
-      color: colors[_Element.background],
+      color: theme[_Element.background],
       child: Center(
         child: DefaultTextStyle(
           style: defaultStyle,
