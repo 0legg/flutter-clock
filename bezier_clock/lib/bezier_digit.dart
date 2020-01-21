@@ -1,4 +1,3 @@
-import 'package:bezier_clock/bezier_data.dart';
 import 'package:bezier_clock/bezier_painter.dart';
 import 'package:flutter/material.dart';
 
@@ -15,9 +14,9 @@ class BezierDigit extends StatefulWidget {
       assert(progress <= 1.0),
       assert(color != null);
   
-  int fromDigit;
-  int toDigit;
-  double progress;
+  final int fromDigit;
+  final int toDigit;
+  final double progress;
   final Color color;
   
   @override
