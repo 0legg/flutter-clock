@@ -67,7 +67,7 @@ class _BezierClockState extends State<BezierClock> {
     setState(() {
       _dateTime = DateTime.now();
       _timer = Timer(
-        Duration(seconds: 1) - Duration(milliseconds: _dateTime.millisecond),
+        Duration(milliseconds: 16),
         _updateTime,
       );
     });
@@ -81,6 +81,8 @@ class _BezierClockState extends State<BezierClock> {
     final minute = _dateTime.minute;
     final second = _dateTime.second;
 
+    final progressSeconds = _dateTime.millisecond / 1000;
+
     return Container(
       color: theme[_Element.background],
       child: Center(
@@ -91,33 +93,45 @@ class _BezierClockState extends State<BezierClock> {
             mainAxisSize: MainAxisSize.min,
             children: [
               BezierDigit(
-                digit: hour ~/ 10,
+                fromDigit: hour ~/ 10,
+                toDigit: hour ~/ 10,
+                progress: 0.0,
                 color: theme[_Element.text],
               ),
               BezierDigit(
-                digit: hour % 10,
-                color: theme[_Element.text],
-              ),
-              SizedBox(
-                width: 100,
-              ),
-              BezierDigit(
-                digit: minute ~/ 10,
-                color: theme[_Element.text],
-              ),
-              BezierDigit(
-                digit: minute % 10,
+                fromDigit: hour % 10,
+                toDigit: hour % 10,
+                progress: 0.0,
                 color: theme[_Element.text],
               ),
               SizedBox(
                 width: 100,
               ),
               BezierDigit(
-                digit: second ~/ 10,
+                fromDigit: minute ~/ 10,
+                toDigit: minute ~/ 10,
+                progress: 0.0,
                 color: theme[_Element.text],
               ),
               BezierDigit(
-                digit: second % 10,
+                fromDigit: minute % 10,
+                toDigit: minute % 10,
+                progress: 0.0,
+                color: theme[_Element.text],
+              ),
+              SizedBox(
+                width: 100,
+              ),
+              BezierDigit(
+                fromDigit: second ~/ 10,
+                toDigit: second ~/ 10,
+                progress: 0.0,
+                color: theme[_Element.text],
+              ),
+              BezierDigit(
+                fromDigit: second % 10,
+                toDigit: (second + 1) % 10,
+                progress: progressSeconds,
                 color: theme[_Element.text],
               ),
             ],

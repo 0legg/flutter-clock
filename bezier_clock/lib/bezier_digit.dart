@@ -4,12 +4,20 @@ import 'package:flutter/material.dart';
 
 class BezierDigit extends StatefulWidget {
   BezierDigit({
-    @required this.digit,
+    @required this.fromDigit,
+    @required this.toDigit,
+    @required this.progress,
     @required this.color,
-  }): assert(digit != null),
+  }): assert(fromDigit != null),
+      assert(toDigit != null),
+      assert(progress != null),
+      assert(progress >= 0.0),
+      assert(progress <= 1.0),
       assert(color != null);
   
-  final int digit;
+  int fromDigit;
+  int toDigit;
+  double progress;
   final Color color;
   
   @override
@@ -24,7 +32,9 @@ class _BezierDigitState extends State<BezierDigit> {
       height: 500,
       child: CustomPaint( 
         painter: BezierPainter(
-          points: BezierData[widget.digit],
+          fromDigit: widget.fromDigit,
+          toDigit: widget.toDigit,
+          progress: widget.progress,
           lineWidth: 10.0,
           color: widget.color,
         ),
