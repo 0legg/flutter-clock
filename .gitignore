@@ -33,5 +33,10 @@ build/
 # Web related
 lib/generated_plugin_registrant.dart
 
+# VS Code java outputs
+.classpath
+.project
+.settings
+
 # Exceptions to above rules.
 !/packages/flutter_tools/test/data/dart_dependencies_test/**/.packages

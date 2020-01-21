@@ -2,24 +2,23 @@ import 'dart:async';
 
 import 'package:flutter_clock_helper/model.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
+
+import 'bezier_digit.dart';
 
 enum _Element {
   background,
   text,
-  shadow,
 }
 
-final _lightTheme = {
-  _Element.background: Color(0xFF81B3FE),
-  _Element.text: Colors.white,
-  _Element.shadow: Colors.black,
-};
-
-final _darkTheme = {
-  _Element.background: Colors.black,
-  _Element.text: Colors.white,
-  _Element.shadow: Color(0xFF174EA6),
+final _themes = {
+  Brightness.light: {
+    _Element.background: Colors.white,
+    _Element.text: Colors.black,
+  },
+  Brightness.dark: {
+    _Element.background: Colors.black,
+    _Element.text: Colors.white,
+  },
 };
 
 class BezierClock extends StatefulWidget {
@@ -76,35 +75,39 @@ class _BezierClockState extends State<BezierClock> {
 
   @override
   Widget build(BuildContext context) {
-    final colors = Theme.of(context).brightness == Brightness.light
-        ? _lightTheme
-        : _darkTheme;
+    final theme = _themes[Theme.of(context).brightness];
     final hour =
-        DateFormat(widget.model.is24HourFormat ? 'HH' : 'hh').format(_dateTime);
-    final minute = DateFormat('mm').format(_dateTime);
-    final fontSize = MediaQuery.of(context).size.width / 3.5;
-    final offset = -fontSize / 7;
-    final defaultStyle = TextStyle(
-      color: colors[_Element.text],
-      fontSize: fontSize,
-      shadows: [
-        Shadow(
-          blurRadius: 0,
-          color: colors[_Element.shadow],
-          offset: Offset(10, 0),
-        ),
-      ],
-    );
+        widget.model.is24HourFormat ? _dateTime.hour : _dateTime.hour % 12;
+    final minute = _dateTime.minute;
 
     return Container(
-      color: colors[_Element.background],
+      color: theme[_Element.background],
       child: Center(
-        child: DefaultTextStyle(
-          style: defaultStyle,
-          child: Stack(
-            children: <Widget>[
-              Positioned(left: offset, top: 0, child: Text(hour)),
-              Positioned(right: offset, bottom: offset, child: Text(minute)),
+        child: FittedBox(
+          fit: BoxFit.contain,
+          alignment: Alignment.center,
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              BezierDigit(
+                digit: hour ~/ 10,
+                color: theme[_Element.text],
+              ),
+              BezierDigit(
+                digit: hour % 10,
+                color: theme[_Element.text],
+              ),
+              SizedBox(
+                width: 200,
+              ),
+              BezierDigit(
+                digit: minute ~/ 10,
+                color: theme[_Element.text],
+              ),
+              BezierDigit(
+                digit: minute % 10,
+                color: theme[_Element.text],
+              ),
             ],
           ),
         ),
