@@ -1,4 +1,4 @@
-package com.example.bezier_clock
+package net.olegg.flutter.bezier_clock
 
 import androidx.annotation.NonNull;
 import io.flutter.embedding.android.FlutterActivity
