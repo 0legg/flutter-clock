@@ -79,6 +79,7 @@ class _BezierClockState extends State<BezierClock> {
     final hour =
         widget.model.is24HourFormat ? _dateTime.hour : _dateTime.hour % 12;
     final minute = _dateTime.minute;
+    final second = _dateTime.second;
 
     return Container(
       color: theme[_Element.background],
@@ -98,7 +99,7 @@ class _BezierClockState extends State<BezierClock> {
                 color: theme[_Element.text],
               ),
               SizedBox(
-                width: 200,
+                width: 100,
               ),
               BezierDigit(
                 digit: minute ~/ 10,
@@ -106,6 +107,17 @@ class _BezierClockState extends State<BezierClock> {
               ),
               BezierDigit(
                 digit: minute % 10,
+                color: theme[_Element.text],
+              ),
+              SizedBox(
+                width: 100,
+              ),
+              BezierDigit(
+                digit: second ~/ 10,
+                color: theme[_Element.text],
+              ),
+              BezierDigit(
+                digit: second % 10,
                 color: theme[_Element.text],
               ),
             ],
